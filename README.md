@@ -29,3 +29,8 @@ nodetool cfstats | awk '/Keyspace/ {keyspace=$3} /Table: / {print keyspace "." $
 paths="$(find . -name "cfstats")"; while IFS= read -r line; do awk -v l=$line '/Keyspace/ {keyspace=$3} /Table: / {table=$2} /Space used \(total\):/ {print l "     " keyspace "." table, $4 " Space Used Total bytes" }' <$line ;done <<< $paths
 
 ```
+
+
+```
+ paths="$(find . -name "cfstats")"; while IFS= read -r line; do awk -v l=$line '/Keyspace/ {keyspace=$3} /Table: / {table=$2} /Space used \(total\):/ {split(l,a,"\/"); print a[4] "     " keyspace "." table, $4 " Space Used Total bytes" }' <$line ;done <<< $paths
+```
